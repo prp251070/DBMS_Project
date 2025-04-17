@@ -1,0 +1,93 @@
+<?php
+include 'db_connect.php';
+
+$sql = "SELECT * FROM exams";
+$result = $conn->query($sql);
+
+$exams = [];
+while ($row = $result->fetch_assoc()) {
+    $exams[] = $row;
+}
+
+echo json_encode($exams);
+?>
+
+
+
+<?php
+include 'db_connect.php';
+
+$sql = "SELECT * FROM questions";
+$result = $conn->query($sql);
+
+$questions = [];
+while ($row = $result->fetch_assoc()) {
+    $questions[] = $row;
+}
+
+echo json_encode($questions);
+?>
+
+
+
+submit_exam.php
+<?php
+include 'db_connect.php';
+
+$score = 0;
+
+$sql = "SELECT * FROM questions";
+$result = $conn->query($sql);
+
+while ($row = $result->fetch_assoc()) {
+    $qid = $row['id'];
+    $correct = $row['correct_option'];
+
+    if (isset($_POST["q$qid"]) && $_POST["q$qid"] == $correct) {
+        $score++;
+    }
+}
+
+echo "Your score: $score";
+?>
+
+get_questoin.php
+<?php
+include 'db_connect.php';
+$exam_id = isset($_GET['exam_id']) ? intval($_GET['exam_id']) : 0; 
+echo "Exam ID received: " . $exam_id . "<br>";  // This will print the exam_id on the page
+$sql = "SELECT * FROM questions where exam_id = 1"; // Assuming exam_id is passed as a parameter
+$result = $conn->query($sql);
+
+$questions = [];
+while ($row = $result->fetch_assoc()) {
+    $questions[] = $row;
+}
+
+echo json_encode($questions);
+?>
+
+
+
+
+submit_exam.php
+
+<?php
+include 'db_connect.php';
+
+$score = 0;
+
+$sql = "SELECT * FROM questions";
+$result = $conn->query($sql);
+
+while ($row = $result->fetch_assoc()) {
+    $qid = $row['id'];
+    $correct = $row['correct_option'];
+
+    if (isset($_POST["q$qid"]) && $_POST["q$qid"] == $correct) {
+        $score++;
+    }
+}
+
+echo "Your score: $score";
+?>
